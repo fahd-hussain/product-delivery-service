@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "username": "admin",
+      "email": "admin@admin.com",
+      "password": "$2a$10$OiF6YtPHyJSzVIYLHJqGp.Oh8Uy0wvZc1mv7KtxL3OV56QgWOrSuK",
+      "address": {
+        "street": "Kulas Light",
+        "suite": "Apt. 556",
+        "city": "Gwenborough",
+        "zipcode": "92998-3874",
+        "geo": {
+          "lat": "-37.3159",
+          "lng": "81.1496"
+        }
+      },
+      "phone": "1-770-736-8031 x56442",
+      "website": "hildegard.org",
+      "company": {
+        "name": "Romaguera-Crona",
+        "catchPhrase": "Multi-layered client-server neural-net",
+        "bs": "harness real-time e-markets"
+      }
+    }
+  ],
+  "permission": [
+    {
+      "id": 1,
+      "route": "/dashboard",
+      "type": "create"
+    },
+    {
+      "id": 2,
+      "route": "/dashboard",
+      "type": "read"
+    },
+    {
+      "id": 3,
+      "route": "/dashboard",
+      "type": "update"
+    },
+    {
+      "id": 4,
+      "route": "/dashboard",
+      "type": "delete"
+    },
+    {
+      "id": 5,
+      "route": "/",
+      "type": "create"
+    },
+    {
+      "id": 6,
+      "route": "/",
+      "type": "read"
+    },
+    {
+      "id": 7,
+      "route": "/",
+      "type": "update"
+    },
+    {
+      "id": 8,
+      "route": "/",
+      "type": "delete"
+    }
+  ]
+}

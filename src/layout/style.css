@@ -1,0 +1,32 @@
+._layout_container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 56px 1fr 40px;
+  grid-template-areas: "header header" "sidebar content" "footer footer";
+}
+
+._layout_container > ._layout_header {
+  grid-area: header;
+}
+
+._layout_container > ._layout_sidebar {
+  grid-area: "sidebar";
+  width: 260px;
+  height: 100vh;
+  background-color: lightblue;
+  transition: width 1s;
+  overflow: hidden;
+}
+
+._layout_sidebar_hide {
+  width: 0px !important;
+}
+
+._layout_container > ._layout_content {
+  grid-area: content;
+}
+
+._layout_container > ._layout_footer {
+  grid-area: footer;
+}
