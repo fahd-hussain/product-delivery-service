@@ -1,13 +1,13 @@
 import { EntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { envConfig } from "../../config";
-import { RootState } from "../../type/store.types";
+import { BuilderType, RootState } from "../../type/store.types";
 
 const emptySplitApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: envConfig.env().API_URL,
-    prepareHeaders: (headers, { getState, endpoint }) => {      
+    prepareHeaders: (headers, { getState }) => {
       const store = getState() as RootState;
       const token = store.auth.accessToken;
 
@@ -36,7 +36,7 @@ export const injectGetItems = <T>(
   const initialData = adapter.getInitialState();
 
   const entityApi = enhancedApi.injectEndpoints({
-    endpoints: (build) => ({
+    endpoints: (build: BuilderType) => ({
       [name]: build.query<EntityState<T>, void>({
         query: () => route,
         transformResponse: (response: any) => {
@@ -65,13 +65,13 @@ export const injectGetItem = <T>(
   const enhancedApi = emptySplitApi.enhanceEndpoints({ addTagTypes: [tag] });
   const initialState = adapter.getInitialState();
   const entityApi = enhancedApi.injectEndpoints({
-    endpoints: (build) => ({
+    endpoints: (build: BuilderType) => ({
       [name]: build.query<EntityState<T>, string>({
         query: (id) => `${route}/${id}`,
         transformResponse: (response: any) => {
           return adapter.upsertOne(initialState, response);
         },
-        providesTags: (result, error, id) => [{ type: tag, id }],
+        providesTags: (_, __, id) => [{ type: tag, id }],
       }),
     }),
   });
@@ -84,7 +84,7 @@ export const injectAddItem = <T>(tag: string, route: string) => {
   const enhancedApi = emptySplitApi.enhanceEndpoints({ addTagTypes: [tag] });
 
   const entityApi = enhancedApi.injectEndpoints({
-    endpoints: (build) => ({
+    endpoints: (build: BuilderType) => ({
       [name]: build.mutation<T, T>({
         query: (body: T) => ({
           url: route,
@@ -104,14 +104,14 @@ export const injectUpdateItem = <T>(tag: string, route: string) => {
   const enhancedApi = emptySplitApi.enhanceEndpoints({ addTagTypes: [tag] });
 
   const entityApi = enhancedApi.injectEndpoints({
-    endpoints: (build) => ({
+    endpoints: (build: BuilderType) => ({
       [name]: build.mutation<T, any>({
         query: (body: { id: string; [x: string]: any }) => ({
           url: `${route}/${body.id}`,
           method: "PUT",
           body,
         }),
-        invalidatesTags: (result, error, arg) => [{ type: tag, id: arg.id }],
+        invalidatesTags: (_, __, arg) => [{ type: tag, id: arg.id }],
       }),
     }),
   });
@@ -124,14 +124,14 @@ export const injectDeleteItem = <T>(tag: string, route: string) => {
   const enhancedApi = emptySplitApi.enhanceEndpoints({ addTagTypes: [tag] });
 
   const entityApi = enhancedApi.injectEndpoints({
-    endpoints: (build) => ({
+    endpoints: (build: BuilderType) => ({
       [name]: build.mutation<T, string>({
         query: (id) => ({
           url: `${route}/${id}`,
           method: "DELETE",
           body: { id },
         }),
-        invalidatesTags: (res, err, arg) => [{ type: tag, id: arg }],
+        invalidatesTags: (_, __, arg) => [{ type: tag, id: arg }],
       }),
     }),
   });

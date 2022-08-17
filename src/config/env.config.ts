@@ -1,4 +1,4 @@
-import { ConfigType, Environment, Environments, Keys } from "../type";
+import { ConfigType, Environment, Keys } from "../type";
 
 const { REACT_APP_API_SERVER_URL, REACT_APP_DEPLOYMENT_ENV } = process.env;
 const endPoint = REACT_APP_API_SERVER_URL || "";
