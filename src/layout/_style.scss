@@ -1,0 +1,118 @@
+@import "../assets/css/_variables.scss";
+
+._layout_container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 56px 1fr 40px;
+  grid-template-areas: "header header" "sidebar content" "footer footer";
+
+  ._layout_header {
+    grid-area: header;
+
+    ._layout_header_app_bar {
+      background-color: $body-bg;
+      color: $gray-800;
+
+      ._layout_header_app_bar_logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 56px;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: $black;
+      }
+    }
+  }
+
+  ._layout_sidebar {
+    grid-area: "sidebar";
+    margin: 20px;
+    width: 220px;
+    height: 80vh;
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+    box-shadow: 2px 2px 20px 0px $gray-400;
+    border: 1px solid $gray-400;
+    border-radius: $border-radius-sm;
+    background-color: $primary;
+
+    ._layout_sidebar_toggle_icon_hollow {
+      justify-content: center;
+      justify-items: center;
+      display: flex;
+      // margin-right: 20px;
+      color: $white;
+      padding-bottom: 20px;
+    }
+
+    ._layout_sidebar_toggle_icon_filled {
+      justify-content: flex-end;
+      justify-items: center;
+      display: flex;
+      color: $white;
+      margin-right: 20px;
+      padding-bottom: 20px;
+    }
+
+    ._sidebar_item {
+      height: 46px;
+      min-width: 46px;
+      background: $primary;
+      color: $body-bg;
+
+      &:hover {
+        box-sizing: border-box;
+        border: 2px solid $primary-dark;
+        box-shadow: 1px 1px 2px $gray-900;
+        border-radius: $border-radius-sm;
+
+        span {
+          color: $primary-light;
+        }
+      }
+    }
+
+    ._sidebar_item_is_selected {
+      box-sizing: border-box;
+      background: $white;
+      border: 2px solid $primary-dark;
+      box-shadow: 1px 1px 2px $gray-900;
+      border-radius: $border-radius-sm;
+
+      span {
+        color: $primary-dark;
+      }
+
+      &:hover {
+        background: $white;
+
+        span {
+          color: $primary-dark;
+        }
+      }
+    }
+  }
+
+  ._layout_sidebar_hide {
+    width: 80px !important;
+
+    ._sidebar_item {
+      display: flex;
+      justify-content: center;
+    }
+
+    p {
+      display: none;
+    }
+  }
+}
+
+._layout_container > ._layout_content {
+  grid-area: content;
+}
+
+._layout_container > ._layout_footer {
+  grid-area: footer;
+}

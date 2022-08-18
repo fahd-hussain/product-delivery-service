@@ -1,19 +1,34 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { FC } from "react";
 
-interface HeaderProps {
-  toggleHide: Dispatch<SetStateAction<boolean>>;
-}
+interface HeaderProps {}
 
-const Header: FC<HeaderProps> = ({ toggleHide }) => {
-  const handleToggleHide = () => {
-    toggleHide((prevState) => !prevState);
-  };
-
+const Header: FC<HeaderProps> = () => {
   return (
-    <header className="_layout_header">
-      <button title="Hide me" onClick={handleToggleHide} />
-      Header
-    </header>
+    <Box className="_layout_header" sx={{ flexGrow: 1 }}>
+      <AppBar position="absolute" className="_layout_header_app_bar">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            className="_layout_header_app_bar_logo"
+          >
+            Product Delivery Service
+          </Typography>
+          {/* <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search> */}
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 

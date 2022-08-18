@@ -7,4 +7,5 @@ export interface RouteType {
   icon?: ReactNode;
   path: string;
   Component: LazyExoticComponent<ComponentType<any>>;
+  Icon: LazyExoticComponent<ComponentType<any>>;
 }

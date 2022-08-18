@@ -1,18 +1,26 @@
-import { Link } from "react-router-dom";
 import { appRoutes } from "../../config";
 import classnames from "classnames";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { selectAllPermissions } from "../../store/apiSlice/permissionSlice";
 import { checkRoutePermission } from "../../common";
 import { RouteType } from "../../type/route.types";
+import { List, Box } from "@mui/material";
+import SidebarItem from "./SidebarItem.comp";
+import CircleIcon from "@mui/icons-material/Circle";
+import AdjustIcon from "@mui/icons-material/Adjust";
 
-interface SideBarProps {
-  hide: boolean;
-}
+interface SideBarProps {}
 
-const SideBar: FC<SideBarProps> = ({ hide }) => {
+const SideBar: FC<SideBarProps> = () => {
+  const [hide, toggleHide] = useState<boolean>(false);
+
   const permissions = useAppSelector(selectAllPermissions);
+
+  const handleToggleHide = () => {
+    toggleHide((prevState) => !prevState);
+  };
+
   const permittedRoutes: Array<RouteType> = appRoutes.filter((route) => {
     const permittedRoute: boolean = checkRoutePermission(
       permissions,
@@ -32,17 +40,22 @@ const SideBar: FC<SideBarProps> = ({ hide }) => {
   );
 
   return (
-    <div id="_layout_sidebar" className={layout_sidebar_class}>
-      <nav>
-        <ul style={{ height: "50em" }}>
-          {permittedRoutes.map((appRoute) => (
-            <Link to={appRoute.path} key={appRoute.id}>
-              <li>{appRoute.title}</li>
-            </Link>
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <List className={layout_sidebar_class}>
+      <Box>
+        {hide ? (
+          <Box className="_layout_sidebar_toggle_icon_hollow">
+            <AdjustIcon onClick={handleToggleHide} />
+          </Box>
+        ) : (
+          <Box className="_layout_sidebar_toggle_icon_filled">
+            <CircleIcon onClick={handleToggleHide} />
+          </Box>
+        )}
+        {permittedRoutes.map(({ id, ...props }) => (
+          <SidebarItem key={id} {...props} />
+        ))}
+      </Box>
+    </List>
   );
 };
 

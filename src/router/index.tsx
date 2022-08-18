@@ -20,8 +20,8 @@ const AppRouter = () => {
             <Route path="/login" element={<LoginPage />} />
             {!isLoading &&
               appRoutes.map(({ id, path, Component }) => (
-                <Route element={<RestrictedRoute />}>
-                  <Route key={id} path={path} element={<Component />} />
+                <Route key={id} element={<RestrictedRoute />}>
+                  <Route path={path} element={<Component />} />
                 </Route>
               ))}
           </Route>
