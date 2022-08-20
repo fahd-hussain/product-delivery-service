@@ -10,17 +10,18 @@ import Footer from "./Footer";
 import SideBar from "./Sidebar";
 
 import "./_style.scss";
+import { Box } from "@mui/material";
 
 type LayoutProps = PathRouteProps & LayoutRouteProps & IndexRouteProps;
 
 const Layout: FC<LayoutProps> = () => {
   return (
     <div className="_layout_container">
-      <Header/>
-      <SideBar/>
-      <div className="_layout_content">
+      <Header />
+      <SideBar />
+      <Box className="_layout_content">
         <Outlet />
-      </div>
+      </Box>
       <Footer />
     </div>
   );

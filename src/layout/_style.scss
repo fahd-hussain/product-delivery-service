@@ -4,7 +4,7 @@
   height: 100vh;
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: 56px 1fr 40px;
+  grid-template-rows: 100px 1fr;
   grid-template-areas: "header header" "sidebar content" "footer footer";
 
   ._layout_header {
@@ -28,7 +28,7 @@
 
   ._layout_sidebar {
     grid-area: "sidebar";
-    margin: 20px;
+    margin: 0px 20px;
     width: 220px;
     height: 80vh;
     transition: 0.3s ease-in-out;
@@ -38,24 +38,39 @@
     border-radius: $border-radius-sm;
     background-color: $primary;
 
+    // Toggle Icons for Sidebar Hollow
     ._layout_sidebar_toggle_icon_hollow {
       justify-content: center;
       justify-items: center;
       display: flex;
       // margin-right: 20px;
       color: $white;
-      padding-bottom: 20px;
+      padding: 20px 0px;
     }
 
+    // Toggle Icons for Sidebar Filled
     ._layout_sidebar_toggle_icon_filled {
       justify-content: flex-end;
       justify-items: center;
       display: flex;
       color: $white;
       margin-right: 20px;
-      padding-bottom: 20px;
+      padding: 20px 0px;
     }
 
+    ul {
+      display: grid;
+      grid-template-rows: 56px auto 56px;
+      height: inherit;
+      padding-top: 0px;
+
+      li {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+
+    // Sidebar items
     ._sidebar_item {
       height: 46px;
       min-width: 46px;
@@ -74,6 +89,11 @@
       }
     }
 
+    ._sidebar_item_logout {
+      padding-bottom: 30px !important;
+    }
+
+    // Sidebar item selected
     ._sidebar_item_is_selected {
       box-sizing: border-box;
       background: $white;
@@ -96,7 +116,7 @@
   }
 
   ._layout_sidebar_hide {
-    width: 80px !important;
+    width: 90px !important;
 
     ._sidebar_item {
       display: flex;
@@ -107,12 +127,32 @@
       display: none;
     }
   }
-}
 
-._layout_container > ._layout_content {
-  grid-area: content;
-}
+  ._layout_content {
+    grid-area: content;
+    margin: 0px 20px;
+    height: 80vh;
+    overflow: hidden;
+    box-shadow: 1px 1px 2px $gray-900;
+    border-radius: $border-radius-sm;
+    border: 2px solid $body-bg;
+    background-color: $body-bg;
 
-._layout_container > ._layout_footer {
-  grid-area: footer;
+    :first-child {
+      padding: 20px;
+    }
+  }
+
+  ._layout_footer {
+    grid-area: footer;
+    background-color: $body-bg;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $black;
+  }
 }

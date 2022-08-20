@@ -16,7 +16,7 @@ const appRoutes: Array<RouteType> = [
     type: "item",
     path: "/dashboard",
     Component: lazy(() => import("../page/Dashboard").then()),
-    Icon: lazy(() => import("@mui/icons-material/Home").then()),
+    Icon: lazy(() => import("@mui/icons-material/DashboardTwoTone").then()),
   },
 ];
 

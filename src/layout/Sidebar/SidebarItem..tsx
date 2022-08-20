@@ -1,8 +1,8 @@
 import { ComponentType, FC, LazyExoticComponent } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ListItem, ListItemButton, Typography } from "@mui/material";
-import { ListItemDecorator } from "@mui/joy";
+import { ListItem } from "@mui/material";
 import classNames from "classnames";
+import SidebarItemButton from "./SidebarItemButton";
 
 const SidebarItem: FC<SidebarItemProps> = ({ path, title, Icon }) => {
   const location = useLocation();
@@ -14,12 +14,11 @@ const SidebarItem: FC<SidebarItemProps> = ({ path, title, Icon }) => {
   return (
     <Link to={path}>
       <ListItem>
-        <ListItemButton className={_sidebar_item}>
-          <ListItemDecorator>
-            <Icon />
-            <Typography>{title}</Typography>
-          </ListItemDecorator>
-        </ListItemButton>
+        <SidebarItemButton
+          Icon={Icon}
+          title={title}
+          className={_sidebar_item}
+        />
       </ListItem>
     </Link>
   );
