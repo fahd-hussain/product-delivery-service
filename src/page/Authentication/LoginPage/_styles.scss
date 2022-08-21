@@ -1,0 +1,82 @@
+@import "../../../assets/css/variables";
+
+._login_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: -webkit-linear-gradient(130deg, $primary-light, $primary);
+  background: linear-gradient(130deg, $primary-light, $primary);
+
+  ._left_content {
+    height: 100vh;
+  }
+
+  ._right_content {
+    height: 100vh;
+  }
+
+  ._login_form {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+
+    ._login_form_container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      box-shadow: 2px 2px 20px 0px $gray-900;
+      border-radius: $border-radius-sm;
+      background-color: $body-bg;
+
+      ._login_form_header {
+        display: flex;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: $black;
+        margin-top: 20px;
+      }
+
+      ._login_form_body {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        margin: 20px;
+
+        ._login_form_body_input {
+          margin-bottom: 20px;
+        }
+
+        ._Login_form_body_submit_remember {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+
+          ._Login_form_body_remember_chk {
+            margin-right: 20px;
+            .Mui-checked {
+              color: $primary;
+            }
+          }
+          ._Login_form_body_submit_btn {
+            color: $white;
+            background-color: $primary;
+          }
+        }
+      }
+
+      ._login_form_footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: $black;
+        margin-bottom: 20px;
+
+        ._login_form_footer_link {
+          color: $primary;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
