@@ -6,7 +6,13 @@ import { login } from "./thunk";
 const slice = createSlice({
   name: "auth",
   initialState: initialAuthState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.accessToken = null;
+      state.user = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.user = payload.user;
@@ -16,7 +22,7 @@ const slice = createSlice({
   },
 });
 
-// export const {  } = slice.actions;
+export const { logout } = slice.actions;
 
 export default slice.reducer;
 

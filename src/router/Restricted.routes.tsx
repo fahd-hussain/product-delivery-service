@@ -17,7 +17,7 @@ const RestrictedRoute: FC<RestrictedRouteProps> = () => {
     location.pathname
   );
 
-  if (isAuthenticated)
+  if (!isAuthenticated)
     return <Navigate to="/login" state={{ from: location }} replace />;
 
   if (!permittedRoute) return <Navigate to="/page-not-found" />;

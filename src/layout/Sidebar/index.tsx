@@ -1,30 +1,28 @@
-import { appRoutes } from "../../config";
-import classnames from "classnames";
 import { FC, lazy, useState } from "react";
-import { useAppSelector } from "../../hooks";
-import { selectAllPermissions } from "../../store/apiSlice/permissionSlice";
-import { checkRoutePermission } from "../../common";
-import { RouteType } from "../../type/route.types";
+import classnames from "classnames";
 import { List, Box, ListItem } from "@mui/material";
+import { appRoutes } from "../../config";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { selectAllPermissions } from "../../store/apiSlice/permissionSlice";
+import { logout } from "../../store/authSlice";
+import { checkRoutePermission } from "../../common";
 import SidebarItemButton from "./SidebarItemButton";
-import CircleIcon from "@mui/icons-material/Circle";
-import AdjustIcon from "@mui/icons-material/FiberManualRecordTwoTone";
 import SidebarItem from "./SidebarItem.";
+import { RouteType } from "../../type/route.types";
 
+const CircleIcon = lazy(() => import("@mui/icons-material/Circle").then());
+const AdjustIcon = lazy(() =>
+  import("@mui/icons-material/FiberManualRecordTwoTone").then()
+);
 const LogoutIcon = lazy(() =>
   import("@mui/icons-material/LogoutTwoTone").then()
 );
 
-interface SideBarProps {}
-
 const SideBar: FC<SideBarProps> = () => {
+  const dispatch = useAppDispatch();
   const [hide, toggleHide] = useState<boolean>(false);
 
   const permissions = useAppSelector(selectAllPermissions);
-
-  const handleToggleHide = () => {
-    toggleHide((prevState) => !prevState);
-  };
 
   const permittedRoutes: Array<RouteType> = appRoutes.filter((route) => {
     const permittedRoute: boolean = checkRoutePermission(
@@ -39,6 +37,13 @@ const SideBar: FC<SideBarProps> = () => {
     }
   });
 
+  const handleToggleHide = () => {
+    toggleHide((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   const _layout_sidebar_class = classnames(
     "_layout_sidebar",
     hide && "_layout_sidebar_hide"
@@ -69,7 +74,7 @@ const SideBar: FC<SideBarProps> = () => {
           <SidebarItemButton
             Icon={LogoutIcon}
             title="Logout"
-            onClick={() => console.log("Hello")}
+            onClick={handleLogout}
             className="_sidebar_item"
           />
         </ListItem>
@@ -77,5 +82,7 @@ const SideBar: FC<SideBarProps> = () => {
     </Box>
   );
 };
+
+interface SideBarProps {}
 
 export default SideBar;

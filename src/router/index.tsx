@@ -16,8 +16,8 @@ const AppRouter = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
           <Route element={<Layout />}>
-            <Route path="/login" element={<LoginPage />} />
             {!isLoading &&
               appRoutes.map(({ id, path, Component }) => (
                 <Route key={id} element={<RestrictedRoute />}>
