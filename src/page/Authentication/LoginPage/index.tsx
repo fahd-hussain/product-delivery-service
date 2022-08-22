@@ -1,3 +1,4 @@
+import { FC, useEffect } from "react";
 import {
   Box,
   Button,
@@ -6,13 +7,44 @@ import {
   Typography,
 } from "@mui/material";
 import { TextField } from "@mui/material";
-import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Form, Formik, FormikHelpers } from "formik";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { login } from "../../../store/authSlice";
+import { LoginPayload } from "../../../type";
 
 import "./_styles.scss";
 import { loginValidationSchema } from "./_validation";
 
-const LoginPage = () => {
+const LoginPage: FC<{}> = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isAuthenticated]);
+
+  const initialValues: LoginPayload = {
+    email: "",
+    password: "",
+    rememberMe: false,
+  };
+
+  const _handleSubmit = async (
+    values: LoginPayload,
+    { resetForm }: FormikHelpers<LoginPayload>
+  ) => {
+    try {
+      dispatch(login(values)).unwrap();
+      resetForm();
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
   return (
     <Box className="_login_container">
       <Box className="_left_content" />
@@ -21,11 +53,18 @@ const LoginPage = () => {
         <Box className="_login_form_container">
           <Typography className="_login_form_header">Login</Typography>
           <Formik
-            initialValues={{ email: "", password: "", rememberMe: false }}
+            initialValues={initialValues}
             validationSchema={loginValidationSchema}
-            onSubmit={() => console.log("Submitted")}
+            onSubmit={_handleSubmit}
           >
-            {({ values, errors, touched, handleChange, handleBlur }) => (
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+            }) => (
               <Form>
                 <Box className="_login_form_body">
                   <TextField
@@ -36,7 +75,7 @@ const LoginPage = () => {
                     onBlur={handleBlur}
                     value={values.email}
                     error={Boolean(errors.email && touched.email)}
-                    helperText={errors.email}
+                    helperText={errors.email && touched.email}
                     autoFocus
                     variant="filled"
                   />
@@ -48,8 +87,7 @@ const LoginPage = () => {
                     onBlur={handleBlur}
                     value={values.password}
                     error={Boolean(errors.password && touched.password)}
-                    helperText={errors.password}
-                    autoFocus
+                    helperText={errors.password && touched.password}
                     type="passeord"
                     variant="filled"
                   />
@@ -64,6 +102,7 @@ const LoginPage = () => {
                     <Button
                       variant="outlined"
                       className="_Login_form_body_submit_btn"
+                      onClick={() => handleSubmit()}
                     >
                       Submit
                     </Button>

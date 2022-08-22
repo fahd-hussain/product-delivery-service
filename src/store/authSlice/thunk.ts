@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosReq } from "../../common";
+import { PostRequest } from "../../util";
 import { LoginPayload, User } from "../../type";
 import { RootState } from "../../type/store.types";
 
@@ -11,7 +11,7 @@ export const login = createAsyncThunk<
   { state: RootState }
 >(`${sliceName}/loginStatus`, async (body) => {
   try {
-    const resp = await axiosReq.post("/login", body);
+    const resp = await PostRequest({ url: "/login", body });
     return resp.data;
   } catch (e: any) {
     console.log(e);

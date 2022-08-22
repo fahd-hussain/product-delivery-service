@@ -15,4 +15,5 @@ export const initialAuthState: AuthState = {
 export interface LoginPayload {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
