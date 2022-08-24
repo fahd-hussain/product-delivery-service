@@ -14,10 +14,18 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
+      state.fetching = true;
+    });
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.user = payload.user;
       state.accessToken = payload.accessToken;
       state.isAuthenticated = true;
+      state.fetching = false;
+    });
+    builder.addCase(login.rejected, (state) => {
+      state.error = "Email/Password is incorrect";
+      state.fetching = false;
     });
   },
 });

@@ -9,12 +9,14 @@ import {
 import { TextField } from "@mui/material";
 import { Form, Formik, FormikHelpers } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { login } from "../../../store/authSlice";
 import { LoginPayload } from "../../../type";
+import { loginValidationSchema } from "./_validation";
 
 import "./_styles.scss";
-import { loginValidationSchema } from "./_validation";
 
 const LoginPage: FC<{}> = () => {
   const navigate = useNavigate();
@@ -25,11 +27,12 @@ const LoginPage: FC<{}> = () => {
     if (isAuthenticated) {
       navigate("/dashboard", { replace: true });
     }
+    // eslint-disable-next-line
   }, [isAuthenticated]);
 
   const initialValues: LoginPayload = {
-    email: "",
-    password: "",
+    email: "admin@admin.com",
+    password: "Admin123!",
     rememberMe: false,
   };
 
@@ -38,10 +41,11 @@ const LoginPage: FC<{}> = () => {
     { resetForm }: FormikHelpers<LoginPayload>
   ) => {
     try {
-      dispatch(login(values)).unwrap();
+      await dispatch(login(values)).unwrap();
       resetForm();
-    } catch (error: any) {
-      console.log(error);
+    } catch (error) {
+      console.error(error);
+      toast.error("Email/Password is incorrect");
     }
   };
 

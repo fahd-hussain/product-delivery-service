@@ -14,6 +14,6 @@ export const login = createAsyncThunk<
     const resp = await PostRequest({ url: "/login", body });
     return resp.data;
   } catch (e: any) {
-    console.log(e);
+    throw e;
   }
 });
