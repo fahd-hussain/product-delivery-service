@@ -1,31 +1,48 @@
-import { lazy, Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { appRoutes } from "../config";
-import { useGetPermissionsQuery } from "../store/apiSlice/permissionSlice";
+import { toast } from "react-toastify";
+import { appRoutes, authRoutes } from "../config";
+import { useAppSelector } from "../hooks";
+import Layout from "../layout";
+import { getPermissions } from "../store/apiSlice/permissionSlice";
+import PageNotFound from "../page/PageNotFound";
 import RestrictedRoute from "./Restricted.routes";
-
-const Layout = lazy(() => import("../layout").then());
-const PageNotFount = lazy(() => import("../page/PageNotFound").then());
-
-const LoginPage = lazy(() => import("../page/Authentication/LoginPage").then());
+import { store } from "../store";
 
 const AppRouter = () => {
-  const { isLoading } = useGetPermissionsQuery();
+  const isAuthenticated = useAppSelector((store) => store.auth.isAuthenticated);
+  const [fetching, setFetching] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (isAuthenticated) {
+        setFetching(true);
+        try {
+          await store.dispatch(getPermissions.initiate()).unwrap();
+        } catch (error) {
+          toast.error("Somthing went wrong while fetching permissions.");
+        }
+        setFetching(false);
+      }
+    })();
+  }, [isAuthenticated]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
           <Route element={<Layout />}>
-            {!isLoading &&
-              appRoutes.map(({ id, path, Component }) => (
+            {!fetching &&
+              appRoutes.map(({ path, Component, id }) => (
                 <Route key={id} element={<RestrictedRoute />}>
                   <Route path={path} element={<Component />} />
                 </Route>
               ))}
           </Route>
-          {!isLoading && <Route path="*" element={<PageNotFount />} />}
+          {authRoutes.map(({ path, Component, id }) => (
+            <Route path={path} element={<Component />} key={id} />
+          ))}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </Suspense>

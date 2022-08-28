@@ -2,6 +2,7 @@ import { EntityAdapter, EntityState } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { envConfig } from "../../config";
 import { BuilderType, RootState } from "../../type/store.types";
+import { appendQueryParams } from "../../util";
 
 const emptySplitApi = createApi({
   reducerPath: "api",
@@ -38,7 +39,8 @@ export const injectGetItems = <T>(
   const entityApi = enhancedApi.injectEndpoints({
     endpoints: (build: BuilderType) => ({
       [name]: build.query<EntityState<T>, void>({
-        query: () => route,
+        query: (queryParams?: any) =>
+          queryParams ? appendQueryParams(route, queryParams) : route,
         transformResponse: (response: any) => {
           return adapter.setAll(initialData, response);
         },
